@@ -11,5 +11,13 @@ $count = absint(get_comments_number());
         <?php endif; ?>
     </div>
 
+    <div class="comments__list">
     <?php wp_list_comments(['style' => 'div', 'walker' => new AgenciaCommentWalker()]); ?>
+    </div>
+
+    <?php agencia_paginate_comments() ?>
+
+    <?php if (comments_open()): ?>
+        <?php comment_form(); ?>
+    <?php endif ?>
 </div>

@@ -6,6 +6,7 @@ require_once('inc/menus.php');
 require_once('inc/sidebars.php');
 require_once('inc/images.php');
 require_once('inc/query/posts.php');
+require_once('inc/comments.php');
 
 function agencia_icon(string $name): string{
     $spriteUrl = get_template_directory_uri() . '/assets/sprite.14d9fd56.svg';
@@ -19,4 +20,12 @@ function agencia_paginate(): string
     return '<div class="pagination">' . 
         paginate_links(['prev_text' => agencia_icon('arrow'), 'next_text' => agencia_icon('arrow')])  
         . '</div>';
+}
+
+
+function agencia_paginate_comments(): void
+{
+    echo '<div class="pagination">';
+    paginate_comments_links(['prev_text' => agencia_icon('arrow'), 'next_text' => agencia_icon('arrow')]);
+    echo '</div>';
 }

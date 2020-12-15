@@ -26,14 +26,27 @@ Requires PHP: 7.2
 .formatted .wp-block-buttons {
   margin-bottom: 1.5em;
 }
-
 .comment .edit-link,
 .comment .reply {
   font-weight: 300;
   font-size: 0.8em;
 }
-
 .comment .edit-link::before,
 .comment .reply::before {
   content: " - ";
+}
+
+.form-2column .comment-notes,
+.form-2column .comment-form-cookies-consent,
+.form-2column .form-submit {
+  grid-column: 1/-1;
+}
+
+.comment .comment {
+  margin-top: 1em;
+  margin-left: 75px;
+}
+
+.current_page_parent {
+  color: #fe6748;
 }
