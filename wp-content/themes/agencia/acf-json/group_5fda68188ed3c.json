@@ -70,6 +70,27 @@
             "step": ""
         },
         {
+            "key": "field_5fda829916ae8",
+            "label": "Rooms",
+            "name": "rooms",
+            "type": "number",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": "",
+            "max": "",
+            "step": ""
+        },
+        {
             "key": "field_5fda6ac4a0e10",
             "label": "Price",
             "name": "price",
@@ -137,5 +158,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1608152191
+    "modified": 1608155835
 }

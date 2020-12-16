@@ -108,3 +108,24 @@ add_action('init', function () {
 
 register_activation_hook(__FILE__, 'flush_rewrite_rules');
 register_deactivation_hook(__FILE__, 'flush_rewrite_rules');
+
+/**
+ * Show city and postal_code associated to this content
+ * 
+ * @param WP_Post|int|null $post
+ */
+function agence_city ($post = null): void {
+    if ($post === null) {
+        $post = get_post();
+    }
+    $cities = get_the_terms($post, 'property_city');
+    if (empty($cities)) {
+        return;
+    }
+    $city = $cities[0];
+    echo $city->name;
+    $postalCode = get_field('postal_code', $city);
+    if ($postalCode) {
+        echo ' (' . $postalCode . ')';
+    }
+}
