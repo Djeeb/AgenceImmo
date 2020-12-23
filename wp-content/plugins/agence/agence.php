@@ -30,6 +30,7 @@ add_action('init', function () {
             'item_scheduled'           => __( 'Property scheduled.', 'agence' ),
             'item_updated'             => __( 'Property updated.', 'agence' ),
         ],
+        'has_archive' => 'true',
         'public' => true,
         'hierarchical' => false,
         'exclude_from_search' => false,
@@ -127,5 +128,14 @@ function agence_city ($post = null): void {
     $postalCode = get_field('postal_code', $city);
     if ($postalCode) {
         echo ' (' . $postalCode . ')';
+    }
+}
+
+function agence_price($post = null): void
+{
+    if (get_field('property_category', $post) === 'buy') {
+        echo sprintf(__('%s $', 'agence'), get_field('price'));
+    } else {
+        echo sprintf(__('%s $/mo', 'agence'), get_field('price'));
     }
 }
