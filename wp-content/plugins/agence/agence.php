@@ -1,7 +1,17 @@
-<?php 
+<?php
+
 /**
 * Plugin Name: Agence Plugin
+* Text Domain: agence
+* Domain Path: /languages
 */
+
+defined('ABSPATH') or die('nothing to see');
+
+add_action('plugins_loaded', function () {
+    load_plugin_textdomain('agence', false, basename(dirname(__FILE__)) . '/languages');
+});
+
 add_action('init', function () {
     register_post_type('property', [
         'label' => __('Property', 'agence'),
@@ -30,10 +40,13 @@ add_action('init', function () {
             'item_scheduled'           => __( 'Property scheduled.', 'agence' ),
             'item_updated'             => __( 'Property updated.', 'agence' ),
         ],
-        'has_archive' => 'true',
+        'has_archive' => true,
         'public' => true,
         'hierarchical' => false,
         'exclude_from_search' => false,
+        'rewrite' => [
+            'slug' => _x('property', 'URL', 'agence')
+        ],
         'taxonomies' => ['property_type', 'property_city', 'property_option'],
         'supports' => ['title', 'editor', 'excerpt', 'thumbnail']
     ]);
@@ -109,6 +122,8 @@ add_action('init', function () {
 
 register_activation_hook(__FILE__, 'flush_rewrite_rules');
 register_deactivation_hook(__FILE__, 'flush_rewrite_rules');
+
+require_once('query.php');
 
 /**
  * Show city and postal_code associated to this content
