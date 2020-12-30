@@ -10,6 +10,7 @@ $propertyCategories = [];
 // Filter properties to buy or rent by property_category parameter
 add_filter('query_vars', function (array $params): array{
     $params[] = 'property_category';
+    $param[] = 'city';
     return $params;
 });
 add_action('pre_get_posts', function (WP_Query $query) use (&$propertyCategories): void {
@@ -28,6 +29,51 @@ add_action('pre_get_posts', function (WP_Query $query) use (&$propertyCategories
         $query->set('meta_query', $meta_query);
     }
 
+    $city = get_query_var('city');
+    if ($city) {
+        $tax_query = $query->get('tax_query', []);
+        $tax_query[] = [
+            'taxonomy' => 'property_city',
+            'terms' => $city,
+            'field' => 'slug'
+        ];
+        $query->set('tax_query', $tax_query);
+    }
+
+    $price = (int)get_query_var('price');
+    if ($price) {
+        $meta_query = $query->get('meta_query', []);
+        $meta_query[] = [
+            'key' => 'price',
+            'value' => $price,
+            'compare' => '<=',
+            'type' => 'NUMERIC'
+        ];
+        $query->set('meta_query', $meta_query);
+    }
+
+    $type = get_query_var('property_type');
+    if ($type) {
+        $tax_query = $query->get('tax_query', []);
+        $tax_query[] = [
+            'taxonomy' => 'property_type',
+            'terms' => $type,
+            'field' => 'slug'
+        ];
+        $query->set('tax_query', $tax_query);
+    }
+
+    $rooms = (int)get_query_var('rooms');
+    if ($rooms) {
+        $meta_query = $query->get('meta_query', []);
+        $meta_query[] = [
+            'key' => 'rooms',
+            'value' => $rooms,
+            'compare' => '>=',
+            'type' => 'NUMERIC'
+        ];
+        $query->set('meta_query', $meta_query);
+    }
 });
 
 // Url rewriting
@@ -45,6 +91,13 @@ add_action('init', function () use (&$propertyCategories) {
 
 // Menu current page 
 add_filter('nav_menu_css_class', function (array $classes, WP_Post $item): array {
+    if (is_post_type_archive('property')) {
+        global $wp;
+        if ($wp->request === trim($item->url, '/')) {
+            $classes[] = 'current_page_parent';
+        }
+    }
+
     if (is_singular('property') && function_exists('get_field')) {
         $property = get_queried_object();
         $category = get_field('property_category', $property);
