@@ -26,34 +26,7 @@ $currentRooms = get_query_var('rooms');
         </h1>
         <p>Find all our properties in the area of <strong>Montpellier</strong></p>
         <hr>
-        <form action="" class="search-form__form">
-            <div class="form-group">
-                <select name="city" id="city" class="form-control">
-                    <?php foreach($cities as $city): ?>
-                        <option value="<?= $city->slug ?>" <?php selected($city->slug, $currentCity) ?>><?= $city->name ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <label for="city"><?= __('City', 'agencia') ?></label>
-            </div>
-            <div class="form-group">
-                <input type="number" class="form-control" id="budget" placeholder="100 000 €" name="price" value="<?= esc_attr($currentPrice) ?>">
-                <label for="budget"><?= __('Budget', 'agencia') ?></label>
-            </div>
-            <div class="form-group">
-                <select name="property_type" id="property_type" class="form-control">
-                    <option value=""><?= __('All types', 'agencia') ?></option>
-                    <?php foreach($types as $type): ?>
-                        <option value="<?= $type->slug ?>" <?php selected($type->slug, $currentType) ?>><?= $type->name ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <label for="property_type"><?= __('Type', 'agencia') ?></label>
-            </div>
-            <div class="form-group">
-                <input type="number" name="rooms" class="form-control" id="rooms" placeholder="4" value="<?= esc_attr($currentRooms) ?>">
-                <label for="rooms"><?= __('Rooms', 'agencia') ?></label>
-            </div>
-            <button type="submit" class="btn btn-filled"><?= __('Search', 'agencia') ?></button>
-        </form>
+        <?php get_template_part('template-parts/searchform-property') ?>
     </div>
 
 
@@ -63,18 +36,8 @@ $currentRooms = get_query_var('rooms');
     -->
     <?php $i = 0;
     while (have_posts()) : the_post(); ?>
-        <a class="property <?php if ($i === 7) {
-                                echo 'property--large';
-                            } ?>" href="<?php the_permalink() ?>" title="<?= esc_attr(get_the_title()) ?>">
-            <div class="property__image">
-                <?php the_post_thumbnail($i === 7 ? 'property-thumbnail-large' : 'property-thumbnail') ?>
-            </div>
-            <div class="property__body">
-                <div class="property__location"><?php agence_city() ?></div>
-                <h3 class="property__title"><?php the_title() ?> - <?php the_field('surface') ?>sqm</h3>
-                <div class="property__price"><?php agence_price() ?></div>
-            </div>
-        </a>
+        <?php set_query_var('property-large', $i === 7); ?>
+        <?php get_template_part('template-parts/property') ?>
     <?php $i++;
     endwhile; ?>
 

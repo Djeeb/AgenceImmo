@@ -8,9 +8,12 @@ $propertyCategories = [];
 
 
 // Filter properties to buy or rent by property_category parameter
-add_filter('query_vars', function (array $params): array{
+add_filter('query_vars', function (array $params): array {
     $params[] = 'property_category';
-    $param[] = 'city';
+    $params[] = 'city';
+    $params[] = 'price';
+    $params[] = 'property_type';
+    $params[] = 'rooms';
     return $params;
 });
 add_action('pre_get_posts', function (WP_Query $query) use (&$propertyCategories): void {

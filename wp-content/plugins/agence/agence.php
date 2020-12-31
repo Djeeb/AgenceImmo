@@ -43,7 +43,7 @@ add_action('init', function () {
         'has_archive' => true,
         'public' => true,
         'hierarchical' => false,
-        'exclude_from_search' => false,
+        'exclude_from_search' => true,
         'rewrite' => [
             'slug' => _x('property', 'URL', 'agence')
         ],
@@ -124,6 +124,7 @@ register_activation_hook(__FILE__, 'flush_rewrite_rules');
 register_deactivation_hook(__FILE__, 'flush_rewrite_rules');
 
 require_once('query.php');
+require_once('rewrite.php');
 
 /**
  * Show city and postal_code associated to this content
@@ -150,8 +151,16 @@ function agence_city($post = null): void
 function agence_price($post = null): void
 {
     if (get_field('property_category', $post) === 'buy') {
-        echo sprintf(__('%s $', 'agence'), number_format_i18n(get_field('price')));
+        echo sprintf(__('%s $', 'agence'), number_format_i18n(get_field('price', $post)));
     } else {
-        echo sprintf(__('%s $/mo', 'agence'), number_format_i18n(get_field('price')));
+        echo sprintf(__('%s $/mo', 'agence'), number_format_i18n(get_field('price', $post)));
     }
+}
+
+function agence_rent_route_name () {
+    return _x('rent', 'URL', 'agence');
+}
+
+function agence_buy_route_name () {
+    return _x('buy', 'URL', 'agence');
 }
