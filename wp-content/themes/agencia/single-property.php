@@ -10,25 +10,14 @@
           <div class="bien__location"><?= agence_city() ?></div>
           <div class="bien__price"><?php agence_price() ?></div>
         </div>
-        <div class="bien__actions">
-          <button class="btn btn-filled">Contact the agency</button>
+        <div class="bien__actions" id="bien-actions">
+          <button class="btn btn-filled" id="bien-contact">Contact the agency</button>
           <button class="btn">Call</button>
         </div>
 
-        <!--
-        <form action="" class="bien__form form-2column">
-          <div class="form-group">
-            <input type="text" id="username" class="form-control">
-            <label for="username">Pseudo</label>
-          </div>
-          <div class="form-group">
-            <input type="text" id="email" class="form-control">
-            <label for="email">Email</label>
-          </div>
-          <textarea placeholder="Message" class="form-control full"></textarea>
-          <button type="submit" class="btn">Commenter</button>
-        </form>
-        -->
+        <div class="hidden" id="bien-form">
+          <?= do_shortcode('[contact-form-7 id="107" title="" html_class="bien__form form-2column"]'); ?>
+        </div>
 
       </div>
       <div>
